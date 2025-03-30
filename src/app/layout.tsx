@@ -28,7 +28,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang='en' suppressHydrationWarning>
       <head>
-        <meta name='theme-color' content='#4285F4' />
+        <meta name='theme-color' content='#ffffff' />
         <meta name='apple-mobile-web-app-status-bar-style' content='black-translucent' />
       </head>
       <body className={`${interTight.variable} ${geistMono.variable} antialiased`}>

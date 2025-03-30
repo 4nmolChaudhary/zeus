@@ -7,7 +7,7 @@ const AuthLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
       <div className='absolute w-full top-0 right-0 left-0 z-10 border-b h-16'></div>
       <main className='flex justify-center h-screen w-full'>
         <div className='lg:w-[948px] border-x w-full flex flex-col justify-start items-center z-10'>
-          <div className='h-16 w-full flex items-center justify-between text-sm text-center sm:text-left py-4 px-2 border-b font-semibold bg-white dark:bg-[#232323]'>
+          <div className='h-16 w-full flex items-center justify-between text-sm text-center sm:text-left py-4 px-2 border-b font-semibold'>
             <div>⚡ZEUS</div>
           </div>
           <div className='w-full flex flex-col gap-10 justify-between items-center'>

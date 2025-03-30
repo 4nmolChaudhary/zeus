@@ -9,3 +9,4 @@ const Page = () => {
 }
 
 export default Page
+//mt-2 text-3xl font-medium tracking-tight text-gray-950 dark:text-white
