@@ -27,6 +27,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang='en' suppressHydrationWarning>
+      <head>
+        <meta name='theme-color' content='#4285F4' />
+        <meta name='apple-mobile-web-app-status-bar-style' content='black-translucent' />
+      </head>
       <body className={`${interTight.variable} ${geistMono.variable} antialiased`}>
         <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
           {children}
