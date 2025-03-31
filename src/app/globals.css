@@ -123,3 +123,7 @@
 .grad-text {
   -webkit-text-fill-color: transparent;
 }
+.grain {
+  background: url('https://grainy-gradients.vercel.app/noise.svg');
+  opacity: 0.2;
+}
