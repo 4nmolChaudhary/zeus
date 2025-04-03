@@ -9,11 +9,17 @@ import { Button } from '@/components/ui/button'
 
 import { EyeIcon, EyeOffIcon } from 'lucide-react'
 
+import { getUsers } from '@/db/queries/users'
+
 const Page = () => {
   const id = useId()
   const [isVisible, setIsVisible] = useState(false)
   const toggleVisibility = () => setIsVisible(prevState => !prevState)
 
+  const handleSubmit = async () => {
+    const users = await getUsers()
+    console.log(users)
+  }
   return (
     <div className='h-full w-full flex flex-col items-center justify-center'>
       <div className='px-8'>
@@ -27,18 +33,20 @@ const Page = () => {
         </div>
         <div>
           <label className={`text-sm`}>Email</label>
-          <Input placeholder='john@email.com' />
+          <Input placeholder='john@email.com' autoComplete='new-password' />
         </div>
         <div className='mt-2'>
           <label className={`text-sm`}>Password</label>
           <div className='relative'>
-            <Input id={id} className='pe-9' placeholder='Password' type={isVisible ? 'text' : 'password'} />
+            <Input id={id} className='pe-9' placeholder='Password' autoComplete='new-password' type={isVisible ? 'text' : 'password'} />
             <button className='text-muted-foreground/80 hover:text-foreground focus-visible:border-ring focus-visible:ring-ring/50 absolute inset-y-0 end-0 flex h-full w-9 items-center justify-center rounded-e-md transition-[color,box-shadow] outline-none focus:z-10 focus-visible:ring-[3px] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50' type='button' onClick={toggleVisibility} aria-label={isVisible ? 'Hide password' : 'Show password'} aria-pressed={isVisible} aria-controls='password'>
               {isVisible ? <EyeOffIcon size={16} aria-hidden='true' /> : <EyeIcon size={16} aria-hidden='true' />}
             </button>
           </div>
         </div>
-        <Button className='mt-4 cursor-pointer w-full'>Continue 💪</Button>
+        <Button onClick={handleSubmit} className='mt-4 cursor-pointer w-full'>
+          Continue 💪
+        </Button>
       </div>
     </div>
   )

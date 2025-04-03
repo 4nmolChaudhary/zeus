@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation'
 import Hero from '@/images/hero.png'
 import Logo from '@/images/icon.png'
 import { Button } from '@/components/ui/button'
+import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer'
 
 const ThemeToggle = dynamic(() => import('@/components/others/theme-toggle'), { ssr: false })
 
@@ -16,6 +17,7 @@ export default function Home() {
   const { theme } = useTheme()
   const router = useRouter()
   const [backgroundImage, setBackgroundImage] = useState('none')
+  const [drawerType, setDrawerType] = useState<'login' | 'signup' | 'none'>('none')
   const isDarkTheme = theme === 'dark'
   useEffect(() => {
     setBackgroundImage(`linear-gradient(to right,${isDarkTheme ? '#272727' : '#f6f6f6'} 1px,transparent 1px),linear-gradient(to bottom,${isDarkTheme ? '#272727' : '#f6f6f6'} 1px,transparent 1px)`)
@@ -39,7 +41,7 @@ export default function Home() {
             <div className='w-full flex flex-col gap-3 justify-center items-center'>
               <h2 className='text-3xl md:text-6xl font-medium mt-10 tracking-tight h-16 bg-gradient-to-br from-black to-black[0.3] dark:from-white dark:to-white[0.5] bg-clip-text grad-text'>Ultimate Workout Logging</h2>
               <div className='px-2 mb-2 text-sm text-center font-[family-name:var(--font-geist-mono)] opacity-75'>A powerful fitness companion designed to track, analyze, and optimize your training progress. Simple, intuitive, and built to help you achieve your fitness goals.</div>
-              <Button onClick={() => router.push('/login')} className='mb-4 cursor-pointer'>
+              <Button onClick={() => setDrawerType('login')} className='mb-4 cursor-pointer'>
                 Start Now 🔥
               </Button>
             </div>
@@ -47,6 +49,19 @@ export default function Home() {
           </div>
           <div className='px-2 py-6 mb-2 text-sm text-center font-[family-name:var(--font-geist-mono)] opacity-75'>Track every session, stay consistent, and see real progress. For free. Forever.</div>
         </div>
+        <Drawer open={['login', 'signup'].includes(drawerType)} onOpenChange={() => setDrawerType('none')}>
+          <DrawerContent>
+            <DrawerHeader className='text-left'>
+              <DrawerTitle>Edit profile</DrawerTitle>
+              <DrawerDescription>Make changes to your profile here. Click save when you're done.</DrawerDescription>
+            </DrawerHeader>
+            <DrawerFooter className='pt-2'>
+              <DrawerClose asChild>
+                <Button variant='outline'>Cancel</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
       </main>
     </div>
   )
