@@ -1,26 +1,26 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 import Image from 'next/image'
 import dynamic from 'next/dynamic'
 import { useTheme } from 'next-themes'
-import { useRouter } from 'next/navigation'
 
 import Hero from '@/images/hero.png'
 import Logo from '@/images/icon.png'
 import { Button } from '@/components/ui/button'
-import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer'
+
+import Login from '@/components/auth/login'
 
 const ThemeToggle = dynamic(() => import('@/components/others/theme-toggle'), { ssr: false })
 
 export default function Home() {
   const { theme } = useTheme()
-  const router = useRouter()
+  const ref = useRef(null)
   const [backgroundImage, setBackgroundImage] = useState('none')
   const [drawerType, setDrawerType] = useState<'login' | 'signup' | 'none'>('none')
   const isDarkTheme = theme === 'dark'
   useEffect(() => {
-    setBackgroundImage(`linear-gradient(to right,${isDarkTheme ? '#272727' : '#f6f6f6'} 1px,transparent 1px),linear-gradient(to bottom,${isDarkTheme ? '#272727' : '#f6f6f6'} 1px,transparent 1px)`)
+    setBackgroundImage(`linear-gradient(to right,${isDarkTheme ? '#313131' : '#f6f6f6'} 1px,transparent 1px),linear-gradient(to bottom,${isDarkTheme ? '#313131' : '#f6f6f6'} 1px,transparent 1px)`)
     return () => {}
   }, [isDarkTheme])
 
@@ -29,8 +29,8 @@ export default function Home() {
       <div style={{ backgroundSize: '22.05px auto', backgroundPosition: 'top left', opacity: '0.1' }} className='absolute h-full top-0 right-0 left-0 -z-1 bg-repeat bg-[url(https://framerusercontent.com/images/zkZcqLYKrbf3IcoLGmkQF4odXvY.svg)]'></div>
       <div className='absolute w-full top-0 right-0 left-0 z-10 border-b h-16'></div>
       <main className='flex justify-center h-screen w-full'>
-        <div className='lg:w-[948px] border-x w-full flex flex-col justify-start items-center z-10'>
-          <div suppressHydrationWarning={true} className='h-16 w-full flex items-center justify-between text-sm text-center sm:text-left py-4 px-2 border-b font-semibold bg-white dark:bg-[#232323]'>
+        <div ref={ref} className='lg:w-[948px] border-x w-full flex flex-col justify-start items-center z-10'>
+          <div suppressHydrationWarning={true} className='h-16 w-full flex items-center justify-between text-sm text-center sm:text-left py-4 px-2 border-b font-semibold bg-background/10 backdrop-blur-3xl'>
             <div className='flex items-center'>
               <Image src={Logo} alt='zeus' className='w-6 h-6 mr-1' priority placeholder='blur' blurDataURL='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4dHRsdHR4dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/2wBDAR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR0dHR3/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k=' />
               <div>ZEUS</div>
@@ -49,19 +49,7 @@ export default function Home() {
           </div>
           <div className='px-2 py-6 mb-2 text-sm text-center font-[family-name:var(--font-geist-mono)] opacity-75'>Track every session, stay consistent, and see real progress. For free. Forever.</div>
         </div>
-        <Drawer open={['login', 'signup'].includes(drawerType)} onOpenChange={() => setDrawerType('none')}>
-          <DrawerContent>
-            <DrawerHeader className='text-left'>
-              <DrawerTitle>Edit profile</DrawerTitle>
-              <DrawerDescription>Make changes to your profile here. Click save when you're done.</DrawerDescription>
-            </DrawerHeader>
-            <DrawerFooter className='pt-2'>
-              <DrawerClose asChild>
-                <Button variant='outline'>Cancel</Button>
-              </DrawerClose>
-            </DrawerFooter>
-          </DrawerContent>
-        </Drawer>
+        <Login open={['login'].includes(drawerType)} onOpenChange={() => setDrawerType('none')} />
       </main>
     </div>
   )
