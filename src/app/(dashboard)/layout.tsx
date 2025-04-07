@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Logo from '@/images/icon.png'
 import ThemeToggle from '@/components/others/theme-toggle'
 
-const AuthLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
+const DashboardLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
     <div className='flex min-h-screen flex-col items-center justify-items-center w-full font-[family-name:var(--font-inter-tight)]'>
       <div style={{ backgroundSize: '22.05px auto', backgroundPosition: 'top left', opacity: '0.1' }} className='absolute h-full top-0 right-0 left-0 -z-1 bg-repeat bg-[url(https://framerusercontent.com/images/zkZcqLYKrbf3IcoLGmkQF4odXvY.svg)]'></div>
@@ -28,4 +28,4 @@ const AuthLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   )
 }
 
-export default AuthLayout
+export default DashboardLayout

@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button'
 
 import { EyeIcon, EyeOffIcon } from 'lucide-react'
 
+import { authClient } from '@/lib/auth-client'
+
 type LoginProps = {
   open: boolean
   onOpenChange: (open: boolean) => void
@@ -19,10 +21,29 @@ const Login = ({ open, onOpenChange }: LoginProps) => {
   const [isVisible, setIsVisible] = useState(false)
   const toggleVisibility = () => setIsVisible(prevState => !prevState)
 
+  const handleSubmit = async () => {
+    console.log('login')
+    const { data, error } = await authClient.signUp.email(
+      { email: 'john@email.com', password: 'test@123', name: 'John Doe' },
+      {
+        onRequest: ctx => {
+          console.log(ctx)
+        },
+        onSuccess: ctx => {
+          console.log(ctx)
+        },
+        onError: ctx => {
+          console.log(ctx)
+        },
+      }
+    )
+    console.log(data, error)
+  }
+
   return (
     <ResponsiveDialog title={title} description={desc} open={open} onOpenChange={onOpenChange}>
-      <div className='mb-2'>
-        <label className={`text-sm`}>Email</label>
+      <div className='mb-2 file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input w-full min-w-0 rounded-xs border bg-transparent pt-2 pb-1 text-base transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm aria-invalid:border-destructive'>
+        <label className={`text-sm ml-3 font-[family-name:var(--font-geist-mono)] font-semibold opacity-50`}>Email</label>
         <Input placeholder='john@email.com' autoComplete='new-password' />
       </div>
       <div className='mb-4'>
@@ -34,7 +55,9 @@ const Login = ({ open, onOpenChange }: LoginProps) => {
           </button>
         </div>
       </div>
-      <Button className='cursor-pointer w-full'>Continue 💪</Button>
+      <Button onClick={handleSubmit} className='cursor-pointer w-full'>
+        Continue 💪
+      </Button>
     </ResponsiveDialog>
   )
 }
