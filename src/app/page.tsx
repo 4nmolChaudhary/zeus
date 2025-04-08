@@ -10,6 +10,7 @@ import Logo from '@/images/icon.png'
 import { Button } from '@/components/ui/button'
 
 import Login from '@/components/auth/login'
+import Register from '@/components/auth/register'
 
 const ThemeToggle = dynamic(() => import('@/components/others/theme-toggle'), { ssr: false })
 
@@ -17,7 +18,7 @@ export default function Home() {
   const { theme } = useTheme()
   const ref = useRef(null)
   const [backgroundImage, setBackgroundImage] = useState('none')
-  const [drawerType, setDrawerType] = useState<'login' | 'signup' | 'none'>('none')
+  const [drawerType, setDrawerType] = useState<'login' | 'register' | 'none'>('none')
   const isDarkTheme = theme === 'dark'
   useEffect(() => {
     setBackgroundImage(`linear-gradient(to right,${isDarkTheme ? '#313131' : '#f6f6f6'} 1px,transparent 1px),linear-gradient(to bottom,${isDarkTheme ? '#313131' : '#f6f6f6'} 1px,transparent 1px)`)
@@ -49,7 +50,8 @@ export default function Home() {
           </div>
           <div className='px-2 py-6 mb-2 text-sm text-center font-[family-name:var(--font-geist-mono)] opacity-75'>Track every session, stay consistent, and see real progress. For free. Forever.</div>
         </div>
-        <Login open={['login'].includes(drawerType)} onOpenChange={() => setDrawerType('none')} />
+        <Login open={['login'].includes(drawerType)} onRegister={() => setDrawerType('register')} onOpenChange={() => setDrawerType('none')} />
+        <Register open={['register'].includes(drawerType)} onLogin={() => setDrawerType('login')} onOpenChange={() => setDrawerType('none')} />
       </main>
     </div>
   )

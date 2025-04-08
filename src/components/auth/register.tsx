@@ -12,64 +12,62 @@ import { authClient } from '@/lib/auth-client'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { loginSchema } from '@/schemas/auth'
+import { registerSchema } from '@/schemas/auth'
 
 type LoginProps = {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onRegister: React.MouseEventHandler<HTMLButtonElement>
+  onLogin: React.MouseEventHandler<HTMLButtonElement>
 }
-const title = 'Login to Zeus'
-const desc = 'Enter your email below to login to your account'
+const title = 'Register to Zeus'
+const desc = 'Enter your details to get started'
 
-const Login = ({ open, onOpenChange, onRegister }: LoginProps) => {
+const Register = ({ open, onOpenChange, onLogin }: LoginProps) => {
   const id = useId()
   const [isVisible, setIsVisible] = useState(false)
+  const [loading, setLoading] = useState(false)
   const toggleVisibility = () => setIsVisible(prevState => !prevState)
 
-  const { register, handleSubmit, formState, reset } = useForm({ resolver: zodResolver(loginSchema), defaultValues: { email: '', password: '' } })
+  const { register, handleSubmit, formState, reset } = useForm({ resolver: zodResolver(registerSchema), defaultValues: { email: '', password: '', name: '' } })
   const { errors } = formState
 
   useEffect(() => {
     reset()
     return () => {}
   }, [])
-  // const handleSubmit = async () => {
-  //   console.log('login')
-  //   const { data, error } = await authClient.signUp.email(
-  //     { email: 'john@email.com', password: 'test@123', name: 'John Doe' },
-  //     {
-  //       onRequest: ctx => {
-  //         console.log(ctx)
-  //       },
-  //       onSuccess: ctx => {
-  //         console.log(ctx)
-  //       },
-  //       onError: ctx => {
-  //         console.log(ctx)
-  //       },
-  //     }
-  //   )
-  //   console.log(data, error)
-  // }
-  const onSubmit = async ({ email, password }: { email: string; password: string }) => {
-    console.log(email, password)
+
+  const onSubmit = async ({ email, password, name }: { email: string; password: string; name: string }) => {
+    await authClient.signUp.email(
+      { email, password, name },
+      {
+        onRequest: ctx => setLoading(true),
+        onSuccess: ctx => {
+          console.log(ctx)
+          setLoading(false)
+        },
+        onError: ctx => {
+          console.log(ctx)
+          setLoading(false)
+        },
+      }
+    )
   }
   return (
     <ResponsiveDialog title={title} description={desc} open={open} onOpenChange={onOpenChange}>
       <form className='w-full' onSubmit={handleSubmit(onSubmit)}>
+        <TextInput error={errors.name} {...register('name')} label='Name' placeholder='John Doe' autoComplete='new-password' containerClasses='mt-2' />
         <TextInput error={errors.email} {...register('email')} label='Email' placeholder='john@email.com' autoComplete='new-password' containerClasses='mt-2' />
         <TextInput error={errors.password} {...register('password')} id={id} label='Password' placeholder='*********' autoComplete='new-password' type={isVisible ? 'text' : 'password'} containerClasses='relative mb-4'>
           <button className='text-muted-foreground/80 hover:text-foreground focus-visible:border-ring focus-visible:ring-ring/50 absolute top-2.5 end-0 flex h-full w-9 items-center justify-center rounded-e-md transition-[color,box-shadow] outline-none focus:z-10 focus-visible:ring-[3px] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50' type='button' onClick={toggleVisibility} aria-label={isVisible ? 'Hide password' : 'Show password'} aria-pressed={isVisible} aria-controls='password'>
             {isVisible ? <EyeOffIcon size={16} aria-hidden='true' /> : <EyeIcon size={16} aria-hidden='true' />}
           </button>
         </TextInput>
-        <Button type='submit' className='cursor-pointer w-full' text='Continue 💪' loadingText='Signing In...' />
+        <Button type='submit' className='cursor-pointer w-full' text='Continue 💪' loading={loading} loadingText='Creating Account...' />
         <p className='mb-1 mt-3 text-center text-sm text-neutral-500 dark:text-neutral-400'>
           <span>
-            Don't have an account?
-            <button onClick={onRegister} type='button' className='font-medium ml-1 cursor-pointer text-neutral-700 underline-offset-2 outline-hidden hover:underline focus:underline dark:text-neutral-300'>
-              Register
+            Already have an account?
+            <button onClick={onLogin} type='button' className='font-medium ml-1 cursor-pointer text-neutral-700 underline-offset-2 outline-hidden hover:underline focus:underline dark:text-neutral-300'>
+              Login
             </button>
           </span>
         </p>
@@ -78,4 +76,4 @@ const Login = ({ open, onOpenChange, onRegister }: LoginProps) => {
   )
 }
 
-export default Login
+export default Register
