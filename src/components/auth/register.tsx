@@ -4,6 +4,7 @@ import React, { useId, useState, useEffect } from 'react'
 import { ResponsiveDialog } from '@/components/others/responsive-dialog'
 import { Button } from '@/components/form/button'
 import { TextInput } from '@/components/form/text-input'
+import { toast } from 'sonner'
 
 import { EyeIcon, EyeOffIcon } from 'lucide-react'
 
@@ -17,7 +18,7 @@ import { registerSchema } from '@/schemas/auth'
 type LoginProps = {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onLogin: React.MouseEventHandler<HTMLButtonElement>
+  onLogin: React.MouseEventHandler<HTMLButtonElement> | (() => void)
 }
 const title = 'Register to Zeus'
 const desc = 'Enter your details to get started'
@@ -34,23 +35,27 @@ const Register = ({ open, onOpenChange, onLogin }: LoginProps) => {
   useEffect(() => {
     reset()
     return () => {}
-  }, [])
+  }, [open])
 
   const onSubmit = async ({ email, password, name }: { email: string; password: string; name: string }) => {
-    await authClient.signUp.email(
-      { email, password, name },
-      {
-        onRequest: ctx => setLoading(true),
-        onSuccess: ctx => {
-          console.log(ctx)
-          setLoading(false)
-        },
-        onError: ctx => {
-          console.log(ctx)
-          setLoading(false)
-        },
-      }
-    )
+    toast.success('Your account has been created')
+    // await authClient.signUp.email(
+    //   { email, password, name },
+    //   {
+    //     onRequest: ctx => setLoading(true),
+    //     onSuccess: ctx => {
+    //       console.log(ctx)
+    //       setLoading(false)
+    //       reset()
+    //       toast.success('Your account has been created')
+    //       onLogin({} as React.MouseEvent<HTMLButtonElement, MouseEvent>)
+    //     },
+    //     onError: ctx => {
+    //       console.log(ctx)
+    //       setLoading(false)
+    //     },
+    //   }
+    // )
   }
   return (
     <ResponsiveDialog title={title} description={desc} open={open} onOpenChange={onOpenChange}>

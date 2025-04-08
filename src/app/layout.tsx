@@ -4,6 +4,7 @@ import { Inter_Tight, Geist_Mono } from 'next/font/google'
 import './globals.css'
 
 import { ThemeProvider } from '@/components/others/theme-provider'
+import { Toaster } from '@/components/ui/sonner'
 
 const interTight = Inter_Tight({ variable: '--font-inter-tight', subsets: ['latin'] })
 const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] })
@@ -34,6 +35,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className={`${interTight.variable} ${geistMono.variable} antialiased bg-background`}>
         <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
           {children}
+          <Toaster position='top-center' />
         </ThemeProvider>
       </body>
     </html>
