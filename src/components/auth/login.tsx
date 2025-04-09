@@ -4,6 +4,7 @@ import React, { useId, useState, useEffect } from 'react'
 import { ResponsiveDialog } from '@/components/others/responsive-dialog'
 import { Button } from '@/components/form/button'
 import { TextInput } from '@/components/form/text-input'
+import { toast } from 'sonner'
 
 import { EyeIcon, EyeOffIcon } from 'lucide-react'
 
@@ -13,6 +14,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { loginSchema } from '@/schemas/auth'
+import { DASHBOARD } from '@/constants/routes'
 
 type LoginProps = {
   open: boolean
@@ -25,6 +27,7 @@ const desc = 'Enter your email below to login to your account'
 const Login = ({ open, onOpenChange, onRegister }: LoginProps) => {
   const id = useId()
   const [isVisible, setIsVisible] = useState(false)
+  const [loading, setLoading] = useState(false)
   const toggleVisibility = () => setIsVisible(prevState => !prevState)
 
   const { register, handleSubmit, formState, reset } = useForm({ resolver: zodResolver(loginSchema), defaultValues: { email: '', password: '' } })
@@ -34,27 +37,13 @@ const Login = ({ open, onOpenChange, onRegister }: LoginProps) => {
     reset()
     return () => {}
   }, [])
-  // const handleSubmit = async () => {
-  //   console.log('login')
-  //   const { data, error } = await authClient.signUp.email(
-  //     { email: 'john@email.com', password: 'test@123', name: 'John Doe' },
-  //     {
-  //       onRequest: ctx => {
-  //         console.log(ctx)
-  //       },
-  //       onSuccess: ctx => {
-  //         console.log(ctx)
-  //       },
-  //       onError: ctx => {
-  //         console.log(ctx)
-  //       },
-  //     }
-  //   )
-  //   console.log(data, error)
-  // }
-  const onSubmit = async ({ email, password }: { email: string; password: string }) => {
-    console.log(email, password)
+  //
+  const onError = ({ error }: { error: { code?: string; message: string } }) => {
+    toast.error(error?.message || 'Something went wrong !')
+    setLoading(false)
   }
+  const onSubmit = async (payload: { email: string; password: string }) => await authClient.signIn.email({ ...payload, callbackURL: DASHBOARD }, { onRequest: () => setLoading(true), onError })
+
   return (
     <ResponsiveDialog title={title} description={desc} open={open} onOpenChange={onOpenChange}>
       <form className='w-full' onSubmit={handleSubmit(onSubmit)}>
@@ -64,7 +53,7 @@ const Login = ({ open, onOpenChange, onRegister }: LoginProps) => {
             {isVisible ? <EyeOffIcon size={16} aria-hidden='true' /> : <EyeIcon size={16} aria-hidden='true' />}
           </button>
         </TextInput>
-        <Button type='submit' className='cursor-pointer w-full' text='Continue 💪' loadingText='Signing In...' />
+        <Button type='submit' className='cursor-pointer w-full' text='Continue 💪' loading={loading} loadingText='Signing In...' />
         <p className='mb-1 mt-3 text-center text-sm text-neutral-500 dark:text-neutral-400'>
           <span>
             Don't have an account?
