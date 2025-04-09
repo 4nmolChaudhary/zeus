@@ -35,7 +35,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className={`${interTight.variable} ${geistMono.variable} antialiased bg-background`}>
         <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
           {children}
-          <Toaster position='top-center' />
+          <Toaster position='top-center' richColors />
         </ThemeProvider>
       </body>
     </html>

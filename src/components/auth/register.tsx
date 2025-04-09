@@ -20,6 +20,7 @@ type LoginProps = {
   onOpenChange: (open: boolean) => void
   onLogin: React.MouseEventHandler<HTMLButtonElement> | (() => void)
 }
+
 const title = 'Register to Zeus'
 const desc = 'Enter your details to get started'
 
@@ -37,26 +38,18 @@ const Register = ({ open, onOpenChange, onLogin }: LoginProps) => {
     return () => {}
   }, [open])
 
-  const onSubmit = async ({ email, password, name }: { email: string; password: string; name: string }) => {
-    toast.success('Your account has been created')
-    // await authClient.signUp.email(
-    //   { email, password, name },
-    //   {
-    //     onRequest: ctx => setLoading(true),
-    //     onSuccess: ctx => {
-    //       console.log(ctx)
-    //       setLoading(false)
-    //       reset()
-    //       toast.success('Your account has been created')
-    //       onLogin({} as React.MouseEvent<HTMLButtonElement, MouseEvent>)
-    //     },
-    //     onError: ctx => {
-    //       console.log(ctx)
-    //       setLoading(false)
-    //     },
-    //   }
-    // )
+  const onError = ({ error }: { error: { code?: string; message: string } }) => {
+    toast.error(error?.message || 'Something went wrong !')
+    setLoading(false)
   }
+  const onSuccess = () => {
+    setLoading(false)
+    reset()
+    toast.success('Your account has been created')
+    onLogin({} as React.MouseEvent<HTMLButtonElement, MouseEvent>)
+  }
+  const onSubmit = async (payload: { email: string; password: string; name: string }) => await authClient.signUp.email(payload, { onRequest: () => setLoading(true), onSuccess, onError })
+
   return (
     <ResponsiveDialog title={title} description={desc} open={open} onOpenChange={onOpenChange}>
       <form className='w-full' onSubmit={handleSubmit(onSubmit)}>
