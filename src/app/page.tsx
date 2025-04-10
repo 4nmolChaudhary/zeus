@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from 'react'
 import Image from 'next/image'
 import dynamic from 'next/dynamic'
 import { useTheme } from 'next-themes'
+import { redirect } from 'next/navigation'
 
 import Hero from '@/images/hero.png'
 import Logo from '@/images/icon.png'
@@ -11,6 +12,9 @@ import { Button } from '@/components/ui/button'
 
 import Login from '@/components/auth/login'
 import Register from '@/components/auth/register'
+
+import { authClient } from '@/lib/auth-client'
+import { DASHBOARD } from '@/constants/routes'
 
 const ThemeToggle = dynamic(() => import('@/components/others/theme-toggle'), { ssr: false })
 
@@ -20,11 +24,14 @@ export default function Home() {
   const [backgroundImage, setBackgroundImage] = useState('none')
   const [drawerType, setDrawerType] = useState<'login' | 'register' | 'none'>('none')
   const isDarkTheme = theme === 'dark'
+  const { data: session } = authClient.useSession()
+
   useEffect(() => {
     setBackgroundImage(`linear-gradient(to right,${isDarkTheme ? '#313131' : '#f6f6f6'} 1px,transparent 1px),linear-gradient(to bottom,${isDarkTheme ? '#313131' : '#f6f6f6'} 1px,transparent 1px)`)
     return () => {}
   }, [isDarkTheme])
 
+  if (session) redirect(DASHBOARD)
   return (
     <div className='flex min-h-screen flex-col items-center justify-items-center w-full font-[family-name:var(--font-inter-tight)]'>
       <div style={{ backgroundSize: '22.05px auto', backgroundPosition: 'top left', opacity: '0.1' }} className='absolute h-full top-0 right-0 left-0 -z-1 bg-repeat bg-[url(https://framerusercontent.com/images/zkZcqLYKrbf3IcoLGmkQF4odXvY.svg)]'></div>
