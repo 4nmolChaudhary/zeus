@@ -3,7 +3,7 @@ import React from 'react'
 import Image from 'next/image'
 
 import Logo from '@/images/icon.png'
-import ThemeToggle from '@/components/others/theme-toggle'
+// import ThemeToggle from '@/components/others/theme-toggle'
 
 const DashboardLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (

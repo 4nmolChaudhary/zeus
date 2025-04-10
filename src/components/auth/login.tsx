@@ -36,7 +36,7 @@ const Login = ({ open, onOpenChange, onRegister }: LoginProps) => {
   useEffect(() => {
     reset()
     return () => {}
-  }, [])
+  }, [reset])
   //
   const onError = ({ error }: { error: { code?: string; message: string } }) => {
     toast.error(error?.message || 'Something went wrong !')
@@ -56,7 +56,7 @@ const Login = ({ open, onOpenChange, onRegister }: LoginProps) => {
         <Button type='submit' className='cursor-pointer w-full' text='Continue 💪' loading={loading} loadingText='Signing In...' />
         <p className='mb-1 mt-3 text-center text-sm text-neutral-500 dark:text-neutral-400'>
           <span>
-            Don't have an account?
+            {`Don't have an account?`}
             <button onClick={onRegister} type='button' className='font-medium ml-1 cursor-pointer text-neutral-700 underline-offset-2 outline-hidden hover:underline focus:underline dark:text-neutral-300'>
               Register
             </button>

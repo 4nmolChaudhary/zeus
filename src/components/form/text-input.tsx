@@ -16,7 +16,7 @@ type TextInputProps = React.ComponentProps<'input'> & {
   children?: React.ReactNode
 }
 
-export const TextInput = ({ className, containerClasses, label, type = 'text', children, error, ...props }: TextInputProps) => {
+export const TextInput = ({ containerClasses, label, type = 'text', children, error, ...props }: TextInputProps) => {
   const bgClass = error?.message ? `bg-red-600/[0.3] dark:bg-red-600/[0.5]` : ``
   const borderClass = error?.message ? `border-red-600` : ``
   const labelClass = error?.message ? `text-red-600` : `opacity-50`

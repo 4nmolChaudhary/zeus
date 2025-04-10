@@ -1,7 +1,6 @@
 import * as React from 'react'
 
 import { useMediaQuery } from '@/hooks/use-media-query'
-import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle } from '@/components/ui/drawer'
 import { DialogProps } from 'vaul'

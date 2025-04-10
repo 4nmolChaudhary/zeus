@@ -36,7 +36,7 @@ const Register = ({ open, onOpenChange, onLogin }: LoginProps) => {
   useEffect(() => {
     reset()
     return () => {}
-  }, [open])
+  }, [open, reset])
 
   const onError = ({ error }: { error: { code?: string; message: string } }) => {
     toast.error(error?.message || 'Something went wrong !')
