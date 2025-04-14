@@ -18,7 +18,7 @@ export function ResponsiveDialog({ open, onOpenChange, title, description, child
   if (isDesktop) {
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className='sm:max-w-1/3 font-[family-name:var(--font-inter-tight)] gap-0'>
+        <DialogContent className='max-w-1/3 md:w-max-[520px] font-[family-name:var(--font-inter-tight)] gap-0'>
           <DialogHeader className='gap-0'>
             {title && <DialogTitle className='h-6 text-lg bg-gradient-to-br from-black to-black[0.3] dark:from-white dark:to-white[0.5] bg-clip-text grad-text'>{title}</DialogTitle>}
             {description && <DialogDescription className='opacity-50 font-[family-name:var(--font-geist-mono)] text-sm'>{description}</DialogDescription>}

@@ -8,9 +8,13 @@ import { startCase } from 'lodash'
 
 import { authClient } from '@/lib/auth-client'
 import { useRouter } from 'next/navigation'
-// import ThemeToggle from '@/components/others/theme-toggle'
+
+import Appearance from '@/components/settings/appearance'
+import RestTimer from '@/components/settings/rest-timer'
+
 const Settings = () => {
   const [open, setOpen] = useState(false)
+  const [drawerType, setDrawerType] = useState('none')
   const items = ['appearance', 'restTimer', 'units', 'account', 'logOut', 'credit']
   const router = useRouter()
   const icons = {
@@ -26,6 +30,7 @@ const Settings = () => {
     if (type === 'logOut') return logOut()
     if (type === 'credit') return openGithub()
     console.log(type)
+    setDrawerType(type)
   }
   return (
     <div>
@@ -50,6 +55,8 @@ const Settings = () => {
         </div>
         {/* <ThemeToggle /> */}
       </ResponsiveDialog>
+      <Appearance open={drawerType === 'appearance'} setOpen={() => setDrawerType('none')} />
+      <RestTimer open={drawerType === 'restTimer'} setOpen={() => setDrawerType('none')} />
     </div>
   )
 }
