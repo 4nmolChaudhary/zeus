@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation'
 
 import Appearance from '@/components/settings/appearance'
 import RestTimer from '@/components/settings/rest-timer'
+import Units from '@/components/settings/units'
 
 const Settings = () => {
   const [open, setOpen] = useState(false)
@@ -53,10 +54,10 @@ const Settings = () => {
             </div>
           ))}
         </div>
-        {/* <ThemeToggle /> */}
       </ResponsiveDialog>
       <Appearance open={drawerType === 'appearance'} setOpen={() => setDrawerType('none')} />
       <RestTimer open={drawerType === 'restTimer'} setOpen={() => setDrawerType('none')} />
+      <Units open={drawerType === 'units'} setOpen={() => setDrawerType('none')} />
     </div>
   )
 }
