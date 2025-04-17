@@ -8,10 +8,11 @@ import { cn } from '@/lib/utils'
 
 interface TimerInputProps {
   onChange?: (minutes: number, seconds: number) => void
+  onSubmitAction: () => void
   className?: string
 }
 
-export default function TimerInput({ onChange, className }: TimerInputProps) {
+export default function TimerInput({ onChange, className, onSubmitAction }: TimerInputProps) {
   const [minutes, setMinutes] = useState(5)
   const [seconds, setSeconds] = useState(0)
   const [isDraggingMinutes, setIsDraggingMinutes] = useState(false)
@@ -105,7 +106,7 @@ export default function TimerInput({ onChange, className }: TimerInputProps) {
           </div>
         </div>
       </div>
-      <Button type='submit' className='cursor-pointer w-full' text='Update Timer' loadingText='Setting Timer...' />
+      <Button onClick={() => onSubmitAction()} type='submit' className='cursor-pointer w-full' text='Update Timer' loadingText='Setting Timer...' />
     </>
   )
 }
