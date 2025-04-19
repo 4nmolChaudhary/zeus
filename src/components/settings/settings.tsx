@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation'
 import Appearance from '@/components/settings/appearance'
 import RestTimer from '@/components/settings/rest-timer'
 import Units from '@/components/settings/units'
+import Account from '@/components/settings/account'
 
 const Settings = () => {
   const [open, setOpen] = useState(false)
@@ -58,6 +59,7 @@ const Settings = () => {
       <Appearance open={drawerType === 'appearance'} setOpen={() => setDrawerType('none')} />
       <RestTimer open={drawerType === 'restTimer'} setOpen={() => setDrawerType('none')} />
       <Units open={drawerType === 'units'} setOpen={() => setDrawerType('none')} />
+      <Account open={drawerType === 'account'} setOpen={() => setDrawerType('none')} />
     </div>
   )
 }
