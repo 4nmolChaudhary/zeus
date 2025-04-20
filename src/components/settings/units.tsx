@@ -16,6 +16,9 @@ const Units = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean) => v
     { type: 'length', label: 'feets', value: 1 },
   ]
   const handleUnitChange = (unit: Unit) => setUnits({ ...units, [unit.type]: unit.value })
+  const onSubmit = () => {
+    console.log(units)
+  }
 
   return (
     <ResponsiveDialog title='Units' description='Change the way you measure' open={open} onOpenChange={setOpen}>
@@ -30,7 +33,7 @@ const Units = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean) => v
             </div>
           ))}
         </div>
-        <Button className='cursor-pointer w-full' text='Update Settings' />
+        <Button onClick={onSubmit} className='cursor-pointer w-full' text='Update Settings' />
       </div>
     </ResponsiveDialog>
   )
