@@ -70,7 +70,7 @@ const Account = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean) =>
           <TextInput {...register('height')} label='Height(cm)' placeholder='176' type='number' />
           <TextInput {...register('weight')} label='Weight(kg)' placeholder='72.5' type='number' />
           <TextInput {...register('age')} label='Age' placeholder='24' type='number' />
-          <ButtonGroup value={gender} onChange={setGender} options={options} label='Gender' />
+          <ButtonGroup selected={gender} onValueChange={setGender} options={options} label='Gender' />
           <Button type='submit' className='cursor-pointer w-full col-span-2' text='Update Account' />
         </form>
       </ResponsiveDialog>
