@@ -3,3 +3,7 @@ export interface Unit {
   label: string
   value: number
 }
+export interface UserPreference {
+  id: number
+  restTimer: number
+}
