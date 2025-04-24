@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "tsx src/db/migrate.ts",
+    "db:migrate": "npx drizzle-kit migrate",
     "db:update": "npm run db:generate && npm run db:migrate",
     "db:seed": "tsx src/db/seed.ts"
   },
@@ -51,3 +51,4 @@
     "typescript": "^5"
   }
 }
+
