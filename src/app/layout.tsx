@@ -5,6 +5,7 @@ import './globals.css'
 
 import { ThemeProvider } from '@/components/others/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
+import { ReactQueryClientProvider } from '@/components/others/query-client-provider'
 
 const interTight = Inter_Tight({ variable: '--font-inter-tight', subsets: ['latin'] })
 const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] })
@@ -27,18 +28,20 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang='en' suppressHydrationWarning>
-      <head>
-        <meta name='theme-color' content='#ffffff' />
-        <meta name='apple-mobile-web-app-status-bar-style' content='black-translucent' />
-      </head>
-      <body className={`${interTight.variable} ${geistMono.variable} antialiased bg-background`}>
-        <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
-          {children}
-          <Toaster position='top-center' richColors />
-        </ThemeProvider>
-      </body>
-    </html>
+    <ReactQueryClientProvider>
+      <html lang='en' suppressHydrationWarning>
+        <head>
+          <meta name='theme-color' content='#ffffff' />
+          <meta name='apple-mobile-web-app-status-bar-style' content='black-translucent' />
+        </head>
+        <body className={`${interTight.variable} ${geistMono.variable} antialiased bg-background`}>
+          <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
+            {children}
+            <Toaster position='top-center' richColors />
+          </ThemeProvider>
+        </body>
+      </html>
+    </ReactQueryClientProvider>
   )
 }
 
