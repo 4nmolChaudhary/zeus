@@ -4,7 +4,7 @@ import { toast } from 'sonner'
 
 type QueryProps<T, A> = {
   payload?: T
-  onSuccess?: (data: A) => void
+  onSuccess?: (data: A & { message: string }) => void
   onError?: () => void
   showSuccess?: boolean
   showError?: boolean
@@ -13,7 +13,7 @@ type QueryProps<T, A> = {
 }
 
 export const useQuery = <T, A>({ queryKey, queryFn, payload, onSuccess = () => {}, onError = () => {}, showSuccess = false, showError = false, ...rest }: QueryProps<T, unknown>) => {
-  const { data, isError, error, isRefetching, ...others } = useTanstackQuery({
+  const { data, isError, error, ...others } = useTanstackQuery({
     queryKey: [queryKey],
     queryFn: () => queryFn(payload as T),
     retry: false,
@@ -32,7 +32,7 @@ export const useQuery = <T, A>({ queryKey, queryFn, payload, onSuccess = () => {
   useEffect(() => {
     if (data) {
       onSuccess(data)
-      //if (showSuccess) toast.success(data?.message )
+      if (showSuccess) toast.success(data?.message)
     }
   }, [data])
   return { data, isError, error, ...others }
