@@ -2,14 +2,11 @@
 import React from 'react'
 
 import { authClient } from '@/lib/auth-client'
-import { useQuery } from '@/hooks/use-query'
-import { getUsers } from '@/db/queries/users'
 
 const Page = () => {
   const date = new Date().toDateString().split(' ')
   const { data: session } = authClient.useSession()
-  const { data: users } = useQuery({ queryKey: 'users', queryFn: getUsers })
-  console.log(users)
+
   return (
     <div className='h-full w-full py-3 px-4'>
       <div className='flex justify-between items-center'>

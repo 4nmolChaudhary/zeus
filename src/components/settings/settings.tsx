@@ -14,11 +14,18 @@ import RestTimer from '@/components/settings/rest-timer'
 import Units from '@/components/settings/units'
 import Account from '@/components/settings/account'
 
+import { useQuery } from '@/hooks/use-query'
+import { getPreferences } from '@/db/queries/users'
+
 const Settings = () => {
   const [open, setOpen] = useState(false)
   const [drawerType, setDrawerType] = useState('none')
   const items = ['appearance', 'restTimer', 'units', 'account', 'logOut', 'credit']
   const router = useRouter()
+  const { data: session } = authClient.useSession()
+  const { data: preference } = useQuery({ queryKey: 'get-preference', queryFn: getPreferences, payload: { id: session?.user.id as string } })
+  console.log(preference)
+
   const icons = {
     [items[0]]: <Palette size={24} className='cursor-pointer mb-2 opacity-75' />,
     [items[1]]: <TimerReset size={24} className='cursor-pointer mb-2 opacity-75' />,
@@ -31,7 +38,6 @@ const Settings = () => {
   const handleClick = (type: string) => {
     if (type === 'logOut') return logOut()
     if (type === 'credit') return openGithub()
-    console.log(type)
     setDrawerType(type)
   }
   return (
