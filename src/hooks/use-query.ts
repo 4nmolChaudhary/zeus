@@ -10,13 +10,15 @@ type QueryProps<T, A> = {
   showError?: boolean
   queryFn: (payload: T) => Promise<any>
   queryKey: string
+  enabled?: boolean
 }
 
-export const useQuery = <T, A>({ queryKey, queryFn, payload, onSuccess = () => {}, onError = () => {}, showSuccess = false, showError = false, ...rest }: QueryProps<T, unknown>) => {
+export const useQuery = <T, A>({ queryKey, queryFn, payload, onSuccess = () => {}, onError = () => {}, showSuccess = false, showError = false, enabled, ...rest }: QueryProps<T, unknown>) => {
   const { data, isError, error, ...others } = useTanstackQuery({
     queryKey: [queryKey],
     queryFn: () => queryFn(payload as T),
     retry: false,
+    enabled,
     ...rest,
   })
 

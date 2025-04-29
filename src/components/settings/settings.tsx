@@ -23,8 +23,9 @@ const Settings = () => {
   const items = ['appearance', 'restTimer', 'units', 'account', 'logOut', 'credit']
   const router = useRouter()
   const { data: session } = authClient.useSession()
-  const { data: preference } = useQuery({ queryKey: 'get-preference', queryFn: getPreferences, payload: { id: session?.user.id as string } })
-  console.log(preference)
+
+  const { data: preference } = useQuery({ queryKey: 'get-preference', queryFn: getPreferences, payload: { id: session?.user.id as string }, enabled: !!session?.user.id })
+  const needToCompleteProfile = !preference?.age
 
   const icons = {
     [items[0]]: <Palette size={24} className='cursor-pointer mb-2 opacity-75' />,
@@ -42,7 +43,15 @@ const Settings = () => {
   }
   return (
     <div>
-      <SettingsIcon size={18} className='cursor-pointer mr-2' onClick={() => setOpen(true)} />
+      <div className='relative'>
+        <SettingsIcon size={18} className='cursor-pointer mr-2' onClick={() => setOpen(true)} />
+        {needToCompleteProfile && (
+          <div className='absolute -top-1 -right-0.5'>
+            <div className='h-3 w-3 bg-red-500 rounded-full animate-pulse' />
+            <div className='absolute inset-0 h-3 w-3 bg-red-500 rounded-full animate-ping opacity-75' />
+          </div>
+        )}
+      </div>
       <ResponsiveDialog title='Settings' description='Update your preferences' open={open} onOpenChange={setOpen}>
         <div className='grid grid-cols-2 md:grid-cols-4 mt-3 gap-2'>
           {items?.map((item, index) => (
