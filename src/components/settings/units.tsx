@@ -12,7 +12,7 @@ const Units = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean) => v
   const values: Unit[] = [
     { type: 'weight', label: 'kg', value: 0 },
     { type: 'weight', label: 'lbs', value: 1 },
-    { type: 'length', label: 'meter', value: 0 },
+    { type: 'length', label: 'meter/cm', value: 0 },
     { type: 'length', label: 'feets', value: 1 },
   ]
   const handleUnitChange = (unit: Unit) => setUnits({ ...units, [unit.type]: unit.value })
