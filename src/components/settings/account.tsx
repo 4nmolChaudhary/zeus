@@ -1,4 +1,5 @@
 'use client'
+import { useState } from 'react'
 import useDialogState from '@/hooks/use-dialog-state'
 import { useForm } from 'react-hook-form'
 
@@ -6,6 +7,7 @@ import { authClient } from '@/lib/auth-client'
 import { Mars, Calendar, Ruler, PersonStanding, UserPen } from 'lucide-react'
 
 import { TextInput } from '@/components/form/text-input'
+import { ButtonGroup } from '@/components/form/button-group'
 import { ResponsiveDialog } from '@/components/others/responsive-dialog'
 import { Button } from '@/components/form/button'
 
@@ -17,6 +19,7 @@ interface FormData {
   lastName: string
   height: string
   weight: string
+  age: string
 }
 
 const Account = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean) => void }) => {
@@ -30,7 +33,11 @@ const Account = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean) =>
     { label: 'Height', value: '176 cm', icon: <Ruler size={24} className='opacity-75' /> },
     { label: 'Weight', value: '72.5 kg', icon: <PersonStanding size={24} className='opacity-75' /> },
   ]
-
+  const options = [
+    { label: 'Male', value: 'male' },
+    { label: 'Female', value: 'female' },
+  ]
+  const [gender, setGender] = useState(options[0])
   const onSubmit = async (payload: FormData) => console.log(payload)
 
   return (
@@ -60,8 +67,10 @@ const Account = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean) =>
         <form className='w-full flex flex-col md:grid md:grid-cols-2 gap-2' onSubmit={handleSubmit(onSubmit)}>
           <TextInput {...register('firstName')} label='First Name' placeholder='John' />
           <TextInput {...register('lastName')} label='Last Name' placeholder='Doe' />
-          <TextInput {...register('height')} label='Height' placeholder='176cm' />
-          <TextInput {...register('weight')} label='Weight' placeholder='72.5kg' />
+          <TextInput {...register('height')} label='Height(cm)' placeholder='176' type='number' />
+          <TextInput {...register('weight')} label='Weight(kg)' placeholder='72.5' type='number' />
+          <TextInput {...register('age')} label='Age' placeholder='24' type='number' />
+          <ButtonGroup value={gender} onChange={setGender} options={options} label='Gender' />
           <Button type='submit' className='cursor-pointer w-full col-span-2' text='Update Account' />
         </form>
       </ResponsiveDialog>
